@@ -1,4 +1,5 @@
 import { launch } from "../../mod.ts";
+// deno-lint-ignore no-import-prefix
 import type { PageProps } from "https://deno.land/x/pyro@0.6.1/page.ts";
 import { ensureFileSync } from "@std/fs/ensure-file";
 
