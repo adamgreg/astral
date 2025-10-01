@@ -101,3 +101,34 @@ Deno.test("Locator - fill()", async () => {
   await page.close();
   await browser.close();
 });
+
+Deno.test("Locator - locator()", async () => {
+  await using server = await serveFixture("fixtures/wait_for_element.html");
+
+  const browser = await launch();
+  const page = await browser.newPage(server.address);
+  const target = page.locator("#target");
+  assertEquals(target.locator("h1"), page.locator("#target h1"));
+});
+
+Deno.test("Locator - $()", async () => {
+  await using server = await serveFixture("fixtures/wait_for_element.html");
+
+  const browser = await launch();
+  const page = await browser.newPage(server.address);
+  await page.waitForNetworkIdle();
+
+  const child = await page.locator("#target").$("h1");
+  assertEquals(child, await page.$("#target h1"));
+});
+
+Deno.test("Locator - $$()", async () => {
+  await using server = await serveFixture("fixtures/wait_for_element.html");
+
+  const browser = await launch();
+  const page = await browser.newPage(server.address);
+  await page.waitForNetworkIdle();
+
+  const children = await page.locator("#target").$$("h1");
+  assertEquals(children, [await page.$("#target h1")]);
+});
